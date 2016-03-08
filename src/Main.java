@@ -10,15 +10,14 @@ public class Main {
 
     public static void main(String[] args) {
         BinarySearchTree<String> binarySearchTree = new BinarySearchTree<>(stringComparor);
-        binarySearchTree.insert("b");
-        binarySearchTree.insert("d");
-        binarySearchTree.insert("a");
-        binarySearchTree.insert("s");
-        binarySearchTree.insert("g");
-        binarySearchTree.insert("e");
-        binarySearchTree.insert("h");
-        System.out.println(binarySearchTree);
-
+        binarySearchTree.insert("1");
+        binarySearchTree.insert("2");
+        binarySearchTree.insert("3");
+        binarySearchTree.insert("4");
+        binarySearchTree.insert("5");
+        binarySearchTree.insert("6");
+        binarySearchTree.insert("7");
+        System.out.println(binarySearchTree.size());
     }
 
     public static BinarySearchTree.Comparor<Integer> integerComparor = (dataInCurrentNode, dataToCompare) -> {

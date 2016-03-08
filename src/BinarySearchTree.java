@@ -5,16 +5,25 @@
 public class BinarySearchTree <Type> {
 
     private Node root;
+    private int size;
     public Comparor<Type> comparor;
 
     public BinarySearchTree(Comparor<Type> comparor) {
         this.comparor = comparor;
         root = null;
+        size = 0;
     }
 
     public BinarySearchTree(Type data, Comparor<Type> comparor) {
         this.comparor = comparor;
-        root = new Node(data);
+        size = 0;
+        if(data != null) {
+            root = new Node(data);
+            size++;
+        }
+        else {
+            throw new NullPointerException();
+        }
     }
 
     public void insert(Type data) {
@@ -23,6 +32,7 @@ public class BinarySearchTree <Type> {
         }
         else {
             root = insert(root, new Node(data));
+            size++;
         }
     }
 
@@ -30,10 +40,10 @@ public class BinarySearchTree <Type> {
         if(root == null) {
             return new Node(nodeToInsert.data);
         }
-        else if (nodeToInsert.compareTo(root.data) > 0) {
+        else if (nodeToInsert.compareTo(root) > 0) {
             root.rightChild = insert(root.rightChild, nodeToInsert);
         }
-        else if(nodeToInsert.compareTo(root.data) < 0) {
+        else if(nodeToInsert.compareTo(root) < 0) {
             root.leftChild = insert(root.leftChild, nodeToInsert);
         }
         return root;
@@ -41,6 +51,10 @@ public class BinarySearchTree <Type> {
 
     public void printInOrder() {
         printInOrder(root);
+    }
+
+    public int size() {
+        return size;
     }
 
     private void printInOrder(Node root) {
@@ -55,6 +69,27 @@ public class BinarySearchTree <Type> {
             printInOrder(root.rightChild);
         }
 
+    }
+
+    private boolean find(Node root, Node nodeToFind) {
+        boolean found;
+        if(root == null || nodeToFind == null) {
+            found = false;
+        }
+        else if(nodeToFind.compareTo(root) == 0) {
+            found = true;
+        }
+        else if(nodeToFind.compareTo(root) < 0) {
+            found = find(root.leftChild, nodeToFind);
+        }
+        else {
+            found = find(root.rightChild, nodeToFind);
+        }
+        return found;
+    }
+
+    public boolean find(Type node) {
+        return find(root, new Node(node));
     }
 
     private String toStringHelper(Node root, StringBuilder stringBuilder) {
@@ -89,7 +124,7 @@ public class BinarySearchTree <Type> {
         int compare(Type dataInCurrentNode, Type dataToCompare);
     }
 
-    private class Node implements Comparable<Type> {
+    private class Node implements Comparable<Node> {
 
         public Node leftChild;
         public Node rightChild;
@@ -114,8 +149,8 @@ public class BinarySearchTree <Type> {
         }
 
         @Override
-        public int compareTo(Type dataToCompare) {
-            return comparor.compare(data, dataToCompare);
+        public int compareTo(Node dataToCompare) {
+            return comparor.compare(data, dataToCompare.data);
         }
 
         @Override
